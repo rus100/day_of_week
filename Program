@@ -1,0 +1,187 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace day_of_week
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {    string st="";
+            while(st!="stop"){
+            Console.WriteLine("Введите дату в виде день.месяц.год");
+            string str = Console.ReadLine();
+            string[] str1 = str.Split('.');
+            int date3 = Convert.ToInt32(str1[0]);
+            int month1 = Convert.ToInt32(str1[1]);
+            int year1 = Convert.ToInt32(str1[2]);
+            day_of_week d = new day_of_week();
+            int c= d.solve(date3, month1, year1);
+           Console.WriteLine(d.name_of_day(c)); 
+            st=Console.ReadLine(); 
+            }
+        }
+    }
+    public class day_of_week
+    {
+        public int day_since_start_of_year(int date, int month, int year)
+        {    bool visokos = false;  
+            int kolvo_day;
+            int date1 = 0;
+            if (year % 4 == 0)
+            {
+                visokos = true;
+            }
+            else
+            {
+                visokos = false;
+            }
+            if (visokos == false)
+            {
+                switch (month - 1)
+                {
+                    case 0:
+                        date1 = 0;
+                        break;
+                    case 1:
+                        date1 = 31;
+                        break;
+                    case 2:
+                        date1 = 59;
+                        break;
+                    case 3:
+                        date1 = 90;
+                        break;
+                    case 4:
+                        date1 = 120;
+                        break;
+                    case 5:
+                        date1 = 151;
+                        break;
+                    case 6:
+                        date1 = 181;
+                        break;
+                    case 7:
+                        date1 = 212;
+                        break;
+                    case 8:
+                        date1 = 243;
+                        break;
+                    case 9:
+                        date1 = 273;
+                        break;
+                    case 10:
+                        date1 = 304;
+                        break;
+                    case 11:
+                        date1 = 334;
+                        break;
+                }
+            }
+            else
+            {
+                switch (month - 1)
+                {
+                    case 0:
+                        date1 = 0;
+                        break;
+                    case 1:
+                        date1 = 31;
+                        break;
+                    case 2:
+                        date1 = 60;
+                        break;
+                    case 3:
+                        date1 = 91;
+                        break;
+                    case 4:
+                        date1 = 121;
+                        break;
+                    case 5:
+                        date1 = 152;
+                        break;
+                    case 6:
+                        date1 = 182;
+                        break;
+                    case 7:
+                        date1 = 213;
+                        break;
+                    case 8:
+                        date1 = 244;
+                        break;
+                    case 9:
+                        date1 = 274;
+                        break;
+                    case 10:
+                        date1 = 305;
+                        break;
+                    case 11:
+                        date1 = 335;
+                        break;
+                }
+            }
+            kolvo_day = date1 + date;
+            return kolvo_day;
+        }
+        public int solve(int date, int month, int year)
+        {
+            int kolvo_visokos = 0;
+            int number_of_day = 0;
+            if (year - 2014 > 0)
+            {
+                kolvo_visokos = Math.Abs(year - 2016) / 4+1;
+            }
+            else { kolvo_visokos = Math.Abs(2012-year ) / 4; }
+            int date11 = 0;
+            int date2 = 0;
+            date11 = day_since_start_of_year(25, 8, 2014);
+            date2 = day_since_start_of_year(date, month, year);
+            int raznost = 0;
+            if (year >= 2014)
+            {
+              raznost = (Math.Abs(year - 2014) - kolvo_visokos) * 365 + kolvo_visokos * 366 + date2 - date11;
+            } 
+            else
+            {
+                raznost = (Math.Abs(year - 2014) - kolvo_visokos) * 365 + kolvo_visokos * 366 + date11 - date2;
+            } 
+            if (year - 2014 < 0)
+            {
+                number_of_day = -raznost % 7;
+            }
+            else
+            {
+                if (year - 2014 == 0)
+                {
+                    number_of_day = raznost % 7;
+                }
+                if (year - 2014 > 0)
+                {
+                    number_of_day = raznost % 7;
+                }
+            }
+            return number_of_day;
+        }
+        public String name_of_day(int number_of_day)
+        {
+            String name_day = "";
+            String[] week = new String[7];
+            week[0] = "понедельник";
+            week[1] = "вторник";
+            week[2] = "среда";
+            week[3] = "четверг";
+            week[4] = "пятница";
+            week[5] = "суббота";
+            week[6] = "воскресенье";
+            if (number_of_day >= 0)
+            {
+                name_day = week[number_of_day];
+            }
+            else
+            {
+                name_day = week[6 + number_of_day];
+            }
+            return name_day;
+        }
+    }
+}
